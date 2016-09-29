@@ -17,14 +17,14 @@ Currently the tools are all based on command line input, so no fancy GUI (yet).
 
 G-Code to UpMachineCode (UMC) converter
 ```
-Usage: up3dtranscode machinetype input.gcode output.umc nozzleheight [a_factor%] [vmax_factor%] [junction]
+Usage: up3dtranscode machinetype input.gcode output.umc nozzleheight [a_factor] [vmax_factor] [junction]
 
           machinetype:  mini / classic / plus / box / Cetus
           input.gcode:  g-code file from slic3r/cura/simplify
           output.umc:   up machine code file which will be generated
           nozzleheight: nozzle distance from bed (e.g. 123.45)
-          a_factor%:    acceleration factor to defaults (.e.g. 0.5)
-          vmax_factor%: speed factor to max defaults (e.g. 1.5)
+          a_factor:     acceleration factor in percent to defaults (.e.g. 50)
+          vmax_factor:  speed factor in percent to max defaults (e.g. 150)
           junction:     junction deviation, default is 0.05 (e.g. 0.1)          
 
 example: up3dtranscode mini input.gcode output.umc 123.1  20  150  0.1
