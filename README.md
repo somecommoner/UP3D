@@ -51,8 +51,8 @@ Interactive printer monitor and debugging tool, use to watch printing
 Usage: up3dshell
 
 Keyboard commands
-Key | Action
---- | ---
+| Key | Action |
+| --- | --- |
 CTRL-c | Aborts the program
 CTRL-r | Refresh display
 p      | Power printer on
