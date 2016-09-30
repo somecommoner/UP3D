@@ -7,9 +7,9 @@
 
 Instructions: [up3dtools-how-to](http://stohn.de/3d/index.php/2016/03/10/up3dtools-little-how-to)
 
-This tools support the famouse printers from Tiertime see http://www.up3d.com for more information. It allows you to use other advanced slicers together with your UP printer. This tools process and upload standard G-Code files to your UP printer.
+This command line tools support printers from Tiertime see http://www.up3d.com for more information. It allows you to use other advanced slicers together with your UP printer. The tools process and upload standard G-Code files to your UP printer.
 
-Currently the tools are all based on command line input, so no fancy GUI (yet).
+A packaged GUI frontend myUP.app for OS X is available under downloads. It allows to explore interactively the various transcoder settings.
 
 ---
 
