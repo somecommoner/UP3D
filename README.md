@@ -57,7 +57,7 @@ Key  |   Action
 CTRL-c   |   Aborts the program
 CTRL-r   |   Refresh display
 p   |   Power printer on
-q   |   Stop printing and quit
+q   |   Stop printing, power off and quit
 0   |   Run ROM Program 0
 
 ---
