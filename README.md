@@ -49,16 +49,16 @@ Usage: up3dload output.umc
 Interactive printer monitor and debugging tool, use to watch printing
 ```
 Usage: up3dshell
-
-Keyboard commands
-| Key | Action |
-| --- | --- |
-CTRL-c | Aborts the program
-CTRL-r | Refresh display
-p      | Power printer on
-q      | Stop printing and quit
-0      | Run ROM Program 0
 ```
+Keyboard commands
+Key  |   Action
+---   |   ---
+CTRL-c   |   Aborts the program
+CTRL-r   |   Refresh display
+p   |   Power printer on
+q   |   Stop printing and quit
+0   |   Run ROM Program 0
+
 ---
 
 ## up3dinfo: 
