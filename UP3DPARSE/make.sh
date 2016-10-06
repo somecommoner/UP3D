@@ -51,7 +51,7 @@ elif [[ "$OSTYPE" == "linux-gnu" ]]; then
 $CC -Os -std=c99 \
     -D_BSD_SOURCE \
     -I../UP3DCOMMON/ \
-    -o parse parse.c
+    -o parse parse.c \
     -lpthread -lm
 
 
@@ -60,7 +60,7 @@ $STRIP parse
 $CC -Os -std=c99 \
     -D_BSD_SOURCE \
     -I../UP3DCOMMON/ \
-    -o up3dconvg ../UP3DCOMMON/up3dconf.c convg.c
+    -o up3dconvg ../UP3DCOMMON/up3dconf.c convg.c \
     -lpthread -lm
 
 $STRIP up3dconvg

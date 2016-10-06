@@ -30,6 +30,10 @@
 
 #define upl_error(s) { printf("ERROR: %s\n",s); }
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 // translation to the coordinates
 #define GCODE_X(x) (-(x))
 #define GCODE_Y(y) (+(y))
