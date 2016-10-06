@@ -43,14 +43,14 @@ $CC -Os -std=c99 -static \
     -o up3dcapture.exe ../UP3DCOMMON/up3dcomm.c ../UP3DCOMMON/up3d.c ../UP3DCOMMON/up3ddata.c capture.c \
     -lusb-1.0
 
-$STRIP up3dcapture
+$STRIP up3dcapture.exe
 
 $CC -Os -std=c99 -static \
     -D_BSD_SOURCE \
     -I../UP3DCOMMON/ \
     -o up3dgcode.exe togcode.c
 
-$STRIP up3dgcode
+$STRIP up3dgcode.exe
 
 $CC -Os -std=c99 -static\
     -D_BSD_SOURCE \
@@ -58,7 +58,7 @@ $CC -Os -std=c99 -static\
     -o up3dstatus.exe ../UP3DCOMMON/up3dcomm.c ../UP3DCOMMON/up3d.c ../UP3DCOMMON/up3ddata.c upstatus.c \
     -lusb-1.0
 
-$STRIP up3dstatus
+$STRIP up3dstatus.exe
 
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
