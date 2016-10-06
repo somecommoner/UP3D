@@ -37,6 +37,30 @@ $CC -Os -std=c99 -static \
 
 $STRIP up3dshell.exe
 
+$CC -Os -std=c99 -static \
+    -D_BSD_SOURCE \
+    -I../UP3DCOMMON/ \
+    -o up3dcapture.exe ../UP3DCOMMON/up3dcomm.c ../UP3DCOMMON/up3d.c ../UP3DCOMMON/up3ddata.c capture.c \
+    -lusb-1.0
+
+$STRIP up3dcapture
+
+$CC -Os -std=c99 -static \
+    -D_BSD_SOURCE \
+    -I../UP3DCOMMON/ \
+    -o up3dgcode.exe togcode.c
+
+$STRIP up3dgcode
+
+$CC -Os -std=c99 -static\
+    -D_BSD_SOURCE \
+    -I../UP3DCOMMON/ \
+    -o up3dstatus.exe ../UP3DCOMMON/up3dcomm.c ../UP3DCOMMON/up3d.c ../UP3DCOMMON/up3ddata.c upstatus.c \
+    -lusb-1.0
+
+$STRIP up3dstatus
+
+
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 
 # note: OSX: use homebrew, install with brew libusb-devel + libncurses-devel and compile
@@ -81,7 +105,6 @@ $CC -Os -Wall \
     `pkg-config --cflags libusb-1.0`/.. \
     -I../UP3DCOMMON/ \
     -lobjc \
-    -lncurses \
     `pkg-config --libs-only-L libusb-1.0|cut -c3-`/libusb-1.0.a \
     -o up3dcapture ../UP3DCOMMON/up3dcomm.c ../UP3DCOMMON/up3d.c ../UP3DCOMMON/up3ddata.c capture.c
 
@@ -137,5 +160,29 @@ $CC -Os -std=c99 \
     -lusb-1.0 -lpthread -lncurses -lm
 
 $STRIP up3dshell
+
+$CC -Os -std=c99 \
+    -D_BSD_SOURCE \
+    -I../UP3DCOMMON/ \
+    -o up3dcapture ../UP3DCOMMON/up3dcomm.c ../UP3DCOMMON/up3d.c ../UP3DCOMMON/up3ddata.c capture.c \
+    -lusb-1.0 -lpthread -lm
+
+$STRIP up3dcapture
+
+$CC -Os -std=c99 \
+    -D_BSD_SOURCE \
+    -I../UP3DCOMMON/ \
+    -o up3dgcode togcode.c \
+    -lpthread -lm
+
+$STRIP up3dgcode
+
+$CC -Os -std=c99 \
+    -D_BSD_SOURCE \
+    -I../UP3DCOMMON/ \
+    -o up3dstatus ../UP3DCOMMON/up3dcomm.c ../UP3DCOMMON/up3d.c ../UP3DCOMMON/up3ddata.c upstatus.c \
+    -lusb-1.0 -lpthread -lm
+
+$STRIP up3dstatus
 
 fi

@@ -50,6 +50,9 @@ cd UP3DTRANSCODE
 bash make.sh
 cd ..
 
+cd UP3DPARSE
+bash make.sh
+cd ..
 
 GIT=$(git describe --tags --always)
 DATE=$(date +'%Y%m%d')
@@ -63,7 +66,11 @@ if [ "$OSTYPE" == "msys" ]; then
     cp UP3DTOOLS/up3dinfo.exe $DESTDIR
     cp UP3DTOOLS/up3dload.exe $DESTDIR
     cp UP3DTOOLS/up3dshell.exe $DESTDIR
+    cp UP3DTOOLS/up3dcapture.exe $DESTDIR
+    cp UP3DTOOLS/up3dgcode.exe $DESTDIR
+    cp UP3DTOOLS/up3dstatus.exe $DESTDIR
     cp UP3DTRANSCODE/up3dtranscode.exe $DESTDIR
+    cp UP3DPARSE/up3dconvg.exe $DESTDIR
 else
     if [[ $OSTYPE =~ darwin.* ]]; then
         OS="MAC"
@@ -71,7 +78,11 @@ else
     cp UP3DTOOLS/up3dinfo $DESTDIR
     cp UP3DTOOLS/up3dload $DESTDIR
     cp UP3DTOOLS/up3dshell $DESTDIR
+    cp UP3DTOOLS/up3dcapture $DESTDIR
+    cp UP3DTOOLS/up3dgcode $DESTDIR
+    cp UP3DTOOLS/up3dstatus $DESTDIR
     cp UP3DTRANSCODE/up3dtranscode $DESTDIR
+    cp UP3DPARSE/up3dconvg $DESTDIR
 fi
 
 cd build
