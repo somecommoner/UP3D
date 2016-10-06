@@ -8,28 +8,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define cetus
+#include "up3dconf.h"
 
-#ifndef cetus
-#define STEPS_X (854.0)
-#define STEPS_Y (854.0)
-#define STEPS_E (854.0)
-
-#define ADD_X   (0.0)
-#define ADD_Y   (120.0)
-#define ADD_Z   (123.1)
-
-#else // cetus
-
-#define STEPS_X (160.0)
-#define STEPS_Y (160.0)
-#define STEPS_E (236.0)
-
-#define ADD_X   (0.0)
-#define ADD_Y   (180.0)
-#define ADD_Z   (182.1)
-
-#endif
+#define ADD_Z(z)   ((z) + nozzle_height)
 
 typedef enum PCMD {
   PCMD_Stop         = 0x00000001,
@@ -73,6 +54,8 @@ static int    _lastFeed = -1;
 static bool   _Xchange, _Ychange, _Zchange, _Echange;
 static int    _minFeed;
 static int    _maxFeed;
+static double nozzle_height = 0;
+static double minZ = 0;
 
 void _dat_cmd_MoveF( float speed1, float pos1, float speed2, float pos2, bool isXY )
 {
@@ -108,6 +91,11 @@ void _dat_cmd_MoveF( float speed1, float pos1, float speed2, float pos2, bool is
       if( _minFeed>fabs(speed1) ) _minFeed = fabs(speed1);
       if( _maxFeed<fabs(speed1) ) _maxFeed = fabs(speed1);
       _Zchange = true;
+      if (_posZ < minZ)
+      {
+        nozzle_height = -_posZ + 0.5; // place the first layer 0.5 mm above build plate
+        minZ = _posZ;
+      }
     }
     if( speed2!=0 ) 
     {
@@ -126,7 +114,7 @@ void _dat_cmd_MoveF( float speed1, float pos1, float speed2, float pos2, bool is
       printf("G1");
       if( _Xchange ) printf(" X%.4f", _posY);
       if( _Ychange ) printf(" Y%.4f", -_posX);
-      if( _Zchange ) printf(" Z%.4f", ADD_Z+_posZ);
+      if( _Zchange ) printf(" Z%.4f", ADD_Z(_posZ));
       if( _Echange ) printf(" E%.5f", _posE);
 /*
       if( _lastFeed != _minFeed )
@@ -152,9 +140,9 @@ void _dat_cmd_MoveL( uint16_t p1, uint16_t p2, int16_t p3, int16_t p4, int16_t p
   int32_t sx = floor((float)((p3*p1+p6*(p1-1)*p1/2))/512);
   int32_t sy = floor((float)((p4*p1+p7*(p1-1)*p1/2))/512);
   int32_t sa = floor((float)((p5*p1+p8*(p1-1)*p1/2))/512);
-  double r1 = sx/STEPS_X;
-  double r2 = sy/STEPS_Y;
-  double r3 = sa/STEPS_E;
+  double r1 = sx/settings.steps_per_mm[0];
+  double r2 = sy/settings.steps_per_mm[1];
+  double r3 = sa/settings.steps_per_mm[2];
 
   _posX += r1;
   _posY += r2;
@@ -163,9 +151,15 @@ void _dat_cmd_MoveL( uint16_t p1, uint16_t p2, int16_t p3, int16_t p4, int16_t p
   if( (r1!=0) || (r2!=0) || (r3!=0) )
   {
     printf("G1");
-    printf(" X%.4f",_posY);
-    printf(" Y%.4f",-_posX);
-    printf(" E%.5f",_posE);
+    // in case x or y moves we put the coordinates to the output
+    if (r1 != 0 || r2 != 0)
+    {
+      printf(" X%.4f",_posY);
+      printf(" Y%.4f",-_posX);
+    }
+    // only print E when there is something to extrude (to differentiate extrude/travel moves)
+    if (r3 != 0)
+      printf(" E%.5f",_posE);
 
     if( p1>1 )
     {
@@ -283,25 +277,69 @@ void _parse_dat_block( UPBLOCK* pBlock )
   }
 }
 
+
+void print_usage_and_exit()
+{
+  printf("Usage: up3dconvg machinetype input.umc\n\n");
+  printf("          machinetype:  mini / classic / plus / box / Cetus\n");
+  printf("          input.gcode:  up machine code file which will be read\n\n");
+  exit(0);
+}
+
+
 int main(int argc, char *argv[])
 {
-  if( argc != 2 )
+  if( argc != 3 )
   {
-    printf("Usage: %s program.dat\n\n", argv[0]);
-    return 0;
+    printf("argc=%d\n", argc);
+    print_usage_and_exit();
+  }
+  
+  switch( argv[1][0] )
+  {
+    case 'm': //mini
+      settings = settings_mini;
+      //memcpy( &settings, &settings_mini, sizeof(settings) );
+      break;
+      
+    case 'c': //classic
+    case 'p': //plus
+      settings = settings_classic_plus;
+      //memcpy( &settings, &settings_classic_plus, sizeof(settings) );
+      break;
+      
+    case 'b': //box
+      settings = settings_box;
+      //memcpy( &settings, &settings_box, sizeof(settings) );
+      break;
+      
+    case 'C': //cetus
+      settings = settings_cetus;
+      //memcpy( &settings, &settings_cetus, sizeof(settings) );
+      break;
+      
+    default:
+      printf("ERROR: Unknown machine type: %s\n\n",argv[1] );
+      print_usage_and_exit();
   }
 
-  FILE* fdat = fopen( argv[1], "rb" );
+
+  FILE* fdat = fopen( argv[2], "rb" );
   if( !fdat )
-    return -1;
+  {
+    print_usage_and_exit();
+  }
 
   printf( ";UP converted GCODE\n\n" );
+  printf( ";input file: %s\n", argv[1]);
   printf( "G21 ;set units to millimeter\n" );
   printf( "G90 ;absoulte coordinates\n" );
   printf( "G92 ;reset X,Y,Z\n" );
   printf( "M82 ;use absolute distances for extrusion\n" );
   printf( "G1 Z0;make gcode viewer happy --> layer 0 = Z0\n" );
   printf( "\n" );
+
+  _posZ = 0;
 
   for( ;; )
   {
