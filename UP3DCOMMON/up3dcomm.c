@@ -61,7 +61,7 @@ bool UP3DCOMM_Open()
   
   if( !_libusb_dev_handle )
   {
-    fprintf(stderr, "[ERROR] USB Open Device (%04X:%04X/%04X/%04X) not found\n", VID, PID_MINI_A, PID_MINI_M, PID_CETUS_S7 );
+    fprintf(stderr, "[ERROR] USB Open Device (%04X:%04X/%04X/%04X/%04X) not found\n", VID, PID_MINI_A, PID_MINI_M, PID_PLUS, PID_CETUS_S7 );
     UP3DCOMM_Close();
     return false;
   }
