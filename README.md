@@ -1,7 +1,7 @@
 # UP3D - use your UP printer with standard G-Code Slicers 
 [![License](http://img.shields.io/:license-gpl2-blue.svg?style=flat-square)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![Build Status](https://travis-ci.org/UP3D-gcode/UP3D.svg?branch=master)](https://travis-ci.org/UP3D-gcode/UP3D) 
-
+[![Release](https://img.shields.io/github/release/UP3D-gcode/UP3D.svg?maxAge=60)](https://github.com/UP3D-gcode/UP3D/releases/latest)
 
 # To download click [![Downloads](https://img.shields.io/github/downloads/UP3D-gcode/UP3D/total.svg?maxAge=3600)](https://github.com/UP3D-gcode/UP3D/releases/latest) for the latest OS X, Linux or Windows package. 
 
