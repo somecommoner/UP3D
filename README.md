@@ -68,3 +68,58 @@ Program to show the details of the connected UP printer
 ```
 Usage: up3dinfo
 ```
+---
+
+## up3dstatus
+
+Program to show current print status and to control the printer
+'''
+Usage: ./up3dstatus [stop | on | off]
+
+        stop:  stops current print and reports status
+        on:    switch printer on and reports status
+        off:   switch printer off and reports status
+        no parameter reports current printer status:
+        <machine>;<program>;<system>;<temp>;<layer>;<height>;<percent>;<time>
+        <machine>: machine state 
+        <program>: program state 
+        <system>:  numeric value machine state 
+        <temp>:    current nozzle temperture in C
+        <layer>:   reported printing layer
+        <height>:  reported printing height in mm
+        <percent>: reported completion in percent
+        <time>:    reported time remaining in seconds
+'''
+---
+
+## up3dconvg
+
+Program to convert UP machine code to standard g-code for e.g. review
+
+'''
+Usage: up3dconvg machinetype input.umc
+
+        machinetype:  mini / classic / plus / box / Cetus
+        input.gcode:  up machine code file which will be read
+'''
+---
+
+## up3dcapture
+
+Program to capture the axis positions during a running print. The capture sapling rate is ca 2ms. The capture stops automatically when the printer returns into idle mode.
+
+'''
+Usage: up3dcapture
+'''
+---
+
+## up3dgcode
+
+Program to process captured data from up3dcapture to g-code. It uses some advanced filtering to generate larger segments.
+
+'''
+Usage: togcode input.capture [average]
+         input.capture:  machine capture file
+         average: not implemented yet
+'''
+---
