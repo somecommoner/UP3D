@@ -11,6 +11,8 @@ This command line tools support printers from Tiertime see http://www.up3d.com f
 
 A packaged GUI frontend myUP.app for OS X is available under downloads. It allows to explore interactively the various transcoder settings.
 
+![Sceenshot](https://github.com/UP3D-gcode/UP3D/releases/download/0.7.4-UP3D-gcode/Screenshot.myUP.0.0.29.png)
+
 ---
 
 ## up3dtranscode: 
