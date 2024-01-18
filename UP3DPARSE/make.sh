@@ -4,6 +4,10 @@ if [ -z "$CC" ]; then
 CC=gcc
 fi
 
+if [ $(uname -m) == "aarch64" ]; then
+    CC=aarch64-linux-gnu-gcc
+fi
+
 if [ -z "$STRIP" ]; then
 STRIP=strip
 fi
